@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Programming-Quiz-App</string>
+    <string name="programming_hero">Programming Hero</string>
+    <string name="quiz">Quiz</string>
+    <string name="high_score">Highscore</string>
+    <string name="start">Start\n</string>
+    <string name="points">%1$s Points</string>
+
+</resources>
