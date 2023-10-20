@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.programming_quiz_app.R
 import com.example.programming_quiz_app.databinding.FragmentHomeBinding
+import com.example.programming_quiz_app.ui.screens.quiz.QuizFragment
 import com.example.programming_quiz_app.utils.Constants
 
 class HomeFragment : Fragment() {
@@ -32,16 +33,21 @@ class HomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentHomeBinding.inflate(inflater,container,false)
         binding.scorePoint.text = getString(R.string.points, highScore)
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-        // TODO: Use the ViewModel
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
+        binding.startBtn.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, QuizFragment.newInstance(
+                    ))
+                .commit();
+        }
     }
 
     override fun onAttach(context: Context) {
