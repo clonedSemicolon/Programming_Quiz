@@ -1,7 +1,10 @@
 package com.example.programming_quiz_app.ui.screens.quiz.question
 
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.service.autofill.OnClickAction
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -18,16 +21,21 @@ import java.lang.Exception
 
 class QuestionFragment : Fragment() {
     private lateinit var quiz:Quiz;
+    private lateinit var onClickAction:()->Unit
+
     companion object {
         fun newInstance(
-            quiz: Quiz
+            quiz: Quiz,
+            onClickAction: ()->Unit
         ) = QuestionFragment().apply {
             this.quiz = quiz
+            this.onClickAction = onClickAction
         }
     }
 
     private lateinit var viewModel: QuestionViewModel
     private lateinit var binding:FragmentQuestionBinding
+    val answersInAlphabeticalOrder = listOf("A", "B", "C", "D", "E")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,18 +57,22 @@ class QuestionFragment : Fragment() {
         quiz.questionImageUrl?.let {url->
             binding.questionImage.visibility = View.VISIBLE
             context?.let {
-                Glide.with(it).load(
-                    url)
+                Glide.with(it).load(url)
+                    .error(R.drawable.error_icon)
+                    .into(binding.questionImage)
 
-                    .into(
-                    binding.questionImage
-                )
             }
         }
         val answerOptionAdapter = AnswerOptionAdapter(
-            quiz.answers.values.toList()
+            quiz.answers.values.toList(),
+            answersInAlphabeticalOrder.indexOf(quiz.correctAnswer)
         ) { selectedAns ->
-
+            val rightAnswerView = binding.answersRecyclerView.findViewHolderForAdapterPosition(answersInAlphabeticalOrder.indexOf(quiz.correctAnswer))
+            val border = GradientDrawable()
+            border.setColor(Color.WHITE);
+            border.setStroke(10, Color.GREEN)
+            rightAnswerView?.itemView?.background = border
+            onClickAction()
         }
         binding.answersRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.answersRecyclerView.adapter = answerOptionAdapter

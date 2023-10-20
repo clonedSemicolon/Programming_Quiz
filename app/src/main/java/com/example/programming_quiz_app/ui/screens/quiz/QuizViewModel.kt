@@ -44,7 +44,7 @@ class QuizViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun startAutoQuestionChange(
-        duration:Long = 1000
+        duration:Long = 10000
     ) {
         questionChangeHandler.postDelayed(questionChangeRunnable, duration) // 10 seconds
     }

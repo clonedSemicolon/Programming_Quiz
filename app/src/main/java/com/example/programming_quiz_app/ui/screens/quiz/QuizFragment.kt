@@ -55,7 +55,8 @@ class QuizFragment : Fragment() {
                parentFragmentManager.beginTransaction().replace(
                    binding.questionView.id,
                    QuestionFragment.newInstance(
-                       questionList[it]
+                       questionList[it],
+                       onClickAction = ::onClickedAns
                    )
                ).commit()
            }
@@ -68,6 +69,10 @@ class QuizFragment : Fragment() {
                binding.finishTxt.text = getString(R.string.finished_successfully)
            }
        }
+    }
+
+    private fun onClickedAns(){
+
     }
 
 }
