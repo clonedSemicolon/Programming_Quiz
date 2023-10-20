@@ -2,7 +2,6 @@ package com.example.programming_quiz_app.ui.screens.quiz
 
 import android.app.Application
 import android.os.Handler
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.programming_quiz_app.data.model.Quiz

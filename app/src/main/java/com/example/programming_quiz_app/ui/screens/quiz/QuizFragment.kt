@@ -1,8 +1,8 @@
 package com.example.programming_quiz_app.ui.screens.quiz
 
 
+import Timer
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.example.programming_quiz_app.R
 import com.example.programming_quiz_app.data.model.Quiz
 import com.example.programming_quiz_app.databinding.FragmentQuizBinding
+
 import com.example.programming_quiz_app.ui.screens.home.HomeFragment
 import com.example.programming_quiz_app.ui.screens.quiz.question.QuestionFragment
 import com.example.programming_quiz_app.utils.Constants

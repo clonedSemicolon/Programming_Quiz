@@ -1,5 +1,6 @@
 package com.example.programming_quiz_app.ui.screens.quiz.question
 
+import Timer
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
@@ -36,7 +37,6 @@ class QuestionFragment : Fragment() {
 
     private lateinit var viewModel: QuestionViewModel
     private lateinit var binding:FragmentQuestionBinding
-    val answersInAlphabeticalOrder = listOf("A", "B", "C", "D", "E")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,6 +58,11 @@ class QuestionFragment : Fragment() {
 
 
     private fun intialize() {
+        binding.timerComposeView.setContent {
+            Timer(initialTime = 10, onFinish = {
+
+            })
+        }
         binding.questionText.text = quiz.question
         "Score:${quiz.score}".also { binding.questionScore.text = it }
         quiz.questionImageUrl?.let {url->
