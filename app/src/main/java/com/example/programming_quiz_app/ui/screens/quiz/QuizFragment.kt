@@ -1,8 +1,9 @@
 package com.example.programming_quiz_app.ui.screens.quiz
 
 
-import Timer
+import DottedComponent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +16,6 @@ import com.bumptech.glide.Glide
 import com.example.programming_quiz_app.R
 import com.example.programming_quiz_app.data.model.Quiz
 import com.example.programming_quiz_app.databinding.FragmentQuizBinding
-
 import com.example.programming_quiz_app.ui.screens.home.HomeFragment
 import com.example.programming_quiz_app.ui.screens.quiz.question.QuestionFragment
 import com.example.programming_quiz_app.utils.Constants
@@ -65,6 +65,7 @@ class QuizFragment : Fragment() {
     }
 
     private fun initialize(){
+
        viewModel.showProgress.observe(viewLifecycleOwner) {
            binding.loader.isVisible = it;
        }
@@ -80,11 +81,18 @@ class QuizFragment : Fragment() {
        }
 
        viewModel.currentQuestionIndex.observe(viewLifecycleOwner){
-
            // Question index and display in the heading section
-
            currentQuestionId = viewModel.currentQuestionIndex.value!! + 1
+
            "Questions : ${currentQuestionId}/${questionList.size}".also { binding.questionId.text = it }
+           Log.d("CURRENT","$currentQuestionId / ${questionList.size}")
+
+           binding.progressBarComposeView.setContent {
+               DottedComponent(
+                   questionList.size,
+                   currentQuestionId,
+               )
+           }
            if(it<questionList.size){
                parentFragmentManager.beginTransaction().replace(
                    binding.questionView.id,
@@ -115,6 +123,8 @@ class QuizFragment : Fragment() {
                        .override(200,200)
                        .into(binding.checkMark)
                }
+
+               binding.progressBarComposeView.visibility = View.INVISIBLE
            }
        }
 

@@ -60,9 +60,9 @@ class QuestionFragment : Fragment() {
     private fun intialize() {
         binding.timerComposeView.setContent {
             Timer(initialTime = 10, onFinish = {
-
             })
         }
+
         binding.questionText.text = quiz.question
         "Score:${quiz.score}".also { binding.questionScore.text = it }
         quiz.questionImageUrl?.let {url->
