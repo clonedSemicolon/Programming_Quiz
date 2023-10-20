@@ -5,5 +5,6 @@
     <string name="high_score">Highscore</string>
     <string name="start">Start\n</string>
     <string name="points">%1$s Points</string>
+    <string name="finished_successfully">Finished Successfully</string>
 
 </resources>

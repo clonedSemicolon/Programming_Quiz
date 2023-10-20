@@ -1,15 +1,18 @@
 package com.example.programming_quiz_app.ui.screens.quiz
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.programming_quiz_app.R
-import com.example.programming_quiz_app.databinding.FragmentHomeBinding
+import com.example.programming_quiz_app.data.model.Quiz
 import com.example.programming_quiz_app.databinding.FragmentQuizBinding
+import com.example.programming_quiz_app.ui.screens.quiz.question.QuestionFragment
 
 class QuizFragment : Fragment() {
 
@@ -19,6 +22,7 @@ class QuizFragment : Fragment() {
 
     private lateinit var viewModel: QuizViewModel
     private lateinit var binding: FragmentQuizBinding
+    private lateinit var questionList:List<Quiz>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +44,29 @@ class QuizFragment : Fragment() {
        }
 
        viewModel.questionList.observe(viewLifecycleOwner){
-           binding.number.text = it.size.toString();
+            questionList = it
+            binding.scoreDetail.visibility = View.VISIBLE
+            viewModel.startAutoQuestionChange()
+       }
+
+       viewModel.currentQuestionIndex.observe(viewLifecycleOwner){
+           binding.scoreDetail.visibility = View.VISIBLE
+           if(it<questionList.size){
+               parentFragmentManager.beginTransaction().replace(
+                   binding.questionView.id,
+                   QuestionFragment.newInstance(
+                       questionList[it]
+                   )
+               ).commit()
+           }
+       }
+
+       viewModel.isFinished.observe(viewLifecycleOwner){
+           if(it){
+               binding.questionView.visibility = View.INVISIBLE
+               binding.scoreDetail.visibility = View.INVISIBLE
+               binding.finishTxt.text = getString(R.string.finished_successfully)
+           }
        }
     }
 
