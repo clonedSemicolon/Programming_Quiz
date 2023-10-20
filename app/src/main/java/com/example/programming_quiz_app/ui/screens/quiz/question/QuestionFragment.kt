@@ -1,5 +1,6 @@
 package com.example.programming_quiz_app.ui.screens.quiz.question
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import androidx.lifecycle.ViewModelProvider
@@ -21,12 +22,12 @@ import java.lang.Exception
 
 class QuestionFragment : Fragment() {
     private lateinit var quiz:Quiz;
-    private lateinit var onClickAction:()->Unit
+    private lateinit var onClickAction:(isCorrect:Boolean)->Unit
 
     companion object {
         fun newInstance(
             quiz: Quiz,
-            onClickAction: ()->Unit
+            onClickAction: (isCorrect: Boolean)->Unit
         ) = QuestionFragment().apply {
             this.quiz = quiz
             this.onClickAction = onClickAction
@@ -51,9 +52,10 @@ class QuestionFragment : Fragment() {
         intialize()
     }
 
+
     private fun intialize() {
         binding.questionText.text = quiz.question
-
+        "Score:${quiz.score}".also { binding.questionScore.text = it }
         quiz.questionImageUrl?.let {url->
             binding.questionImage.visibility = View.VISIBLE
             context?.let {
@@ -66,13 +68,16 @@ class QuestionFragment : Fragment() {
         val answerOptionAdapter = AnswerOptionAdapter(
             quiz.answers.values.toList(),
             answersInAlphabeticalOrder.indexOf(quiz.correctAnswer)
-        ) { selectedAns ->
-            val rightAnswerView = binding.answersRecyclerView.findViewHolderForAdapterPosition(answersInAlphabeticalOrder.indexOf(quiz.correctAnswer))
+        ) {
+            val rightAnsIndex = answersInAlphabeticalOrder.indexOf(quiz.correctAnswer)
+            val rightAnswerView = binding.answersRecyclerView.findViewHolderForAdapterPosition(rightAnsIndex)
             val border = GradientDrawable()
             border.setColor(Color.WHITE);
             border.setStroke(10, Color.GREEN)
             rightAnswerView?.itemView?.background = border
-            onClickAction()
+            onClickAction(
+                 it.toInt() == rightAnsIndex
+            )
         }
         binding.answersRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.answersRecyclerView.adapter = answerOptionAdapter

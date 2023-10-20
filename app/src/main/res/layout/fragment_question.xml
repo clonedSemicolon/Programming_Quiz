@@ -17,11 +17,22 @@
         android:layout_marginBottom="4dp"
         android:background="@drawable/rounded_corner_rectangle">
 
+        <TextView
+            android:id="@+id/question_score"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:padding="4dp"
+            android:textColor="@color/black"
+            />
+
         <ImageView
             android:id="@+id/questionImage"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
-            android:layout_height="200dp"
+            android:layout_height="150dp"
             android:visibility="gone"
             android:adjustViewBounds="true"
             android:src="@drawable/error_icon"
@@ -50,7 +61,6 @@
         app:layout_constraintTop_toBottomOf="@id/ll_question"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-
         android:padding="16dp"
         android:layout_margin="16dp"
         />

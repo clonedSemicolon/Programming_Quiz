@@ -1,5 +1,6 @@
 package com.example.programming_quiz_app.ui.screens.quiz
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -13,6 +14,8 @@ import com.example.programming_quiz_app.R
 import com.example.programming_quiz_app.data.model.Quiz
 import com.example.programming_quiz_app.databinding.FragmentQuizBinding
 import com.example.programming_quiz_app.ui.screens.quiz.question.QuestionFragment
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 
 class QuizFragment : Fragment() {
 
@@ -23,6 +26,7 @@ class QuizFragment : Fragment() {
     private lateinit var viewModel: QuizViewModel
     private lateinit var binding: FragmentQuizBinding
     private lateinit var questionList:List<Quiz>
+    private var currentQuestionId = 0;
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,6 +47,10 @@ class QuizFragment : Fragment() {
            binding.loader.isVisible = it;
        }
 
+        viewModel.currentScore.observe(viewLifecycleOwner){
+            "Score:${it}".also { binding.score.text = it }
+        }
+
        viewModel.questionList.observe(viewLifecycleOwner){
             questionList = it
             binding.scoreDetail.visibility = View.VISIBLE
@@ -50,7 +58,8 @@ class QuizFragment : Fragment() {
        }
 
        viewModel.currentQuestionIndex.observe(viewLifecycleOwner){
-           binding.scoreDetail.visibility = View.VISIBLE
+           currentQuestionId = viewModel.currentQuestionIndex.value!! + 1
+           "Questions : ${currentQuestionId}/${questionList.size}".also { binding.questionId.text = it }
            if(it<questionList.size){
                parentFragmentManager.beginTransaction().replace(
                    binding.questionView.id,
@@ -71,8 +80,12 @@ class QuizFragment : Fragment() {
        }
     }
 
-    private fun onClickedAns(){
-
+    private fun onClickedAns(isCorrectAns:Boolean){
+        if(isCorrectAns){
+            viewModel.updateScore(
+                questionList[viewModel.currentQuestionIndex.value!!].score
+            )
+        }
+        viewModel.forceLoadNextQuestion()
     }
-
 }

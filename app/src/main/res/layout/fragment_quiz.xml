@@ -28,6 +28,7 @@
         tools:visibility="visible">
 
         <TextView
+            android:id="@+id/question_id"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginHorizontal="16dp"
@@ -38,6 +39,7 @@
             tools:text="Question:1/10" />
 
         <TextView
+            android:id="@+id/score"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginHorizontal="16dp"
