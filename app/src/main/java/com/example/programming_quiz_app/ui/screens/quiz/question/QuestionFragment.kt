@@ -49,6 +49,10 @@ class QuestionFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(QuestionViewModel::class.java)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         intialize()
     }
 
@@ -65,16 +69,20 @@ class QuestionFragment : Fragment() {
 
             }
         }
+
+        val correctAns = quiz.answers[quiz.correctAnswer]
+        val shuffledAnswers = quiz.answers.values.toMutableList().shuffled()
+        val correctAnswerIndex = shuffledAnswers.indexOf(correctAns)
+
         val answerOptionAdapter = AnswerOptionAdapter(
-            quiz.answers.values.toList(),
-            answersInAlphabeticalOrder.indexOf(quiz.correctAnswer)
+            shuffledAnswers,
+            correctAnswerIndex
         ) {
-            val rightAnsIndex = answersInAlphabeticalOrder.indexOf(quiz.correctAnswer)
 
             // If the given answer is wrong then the
             // correct answer should be green bordered.
 
-            val rightAnswerView = binding.answersRecyclerView.findViewHolderForAdapterPosition(rightAnsIndex)
+            val rightAnswerView = binding.answersRecyclerView.findViewHolderForAdapterPosition(correctAnswerIndex)
             val border = GradientDrawable()
             border.setColor(Color.WHITE);
             border.setStroke(10, Color.GREEN)
@@ -84,7 +92,7 @@ class QuestionFragment : Fragment() {
             // Execute the action using lamda function passed by parameters.
 
             onClickAction(
-                 it.toInt() == rightAnsIndex
+                 it.toInt() == correctAnswerIndex
             )
         }
         binding.answersRecyclerView.layoutManager = LinearLayoutManager(context)
