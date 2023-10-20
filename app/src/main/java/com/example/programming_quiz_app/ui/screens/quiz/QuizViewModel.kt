@@ -2,14 +2,13 @@ package com.example.programming_quiz_app.ui.screens.quiz
 
 import android.app.Application
 import android.os.Handler
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.example.programming_quiz_app.data.model.Quiz
 import com.example.programming_quiz_app.data.repository.QuizRepository
 import com.example.programming_quiz_app.domain.usecase.QuizDataUseCase
 import com.example.programming_quiz_app.utils.ioThenMain
-import kotlinx.coroutines.delay
 
 class QuizViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -23,6 +22,7 @@ class QuizViewModel(application: Application) : AndroidViewModel(application) {
     val currentQuestionIndex:MutableLiveData<Int> = MutableLiveData()
     val currentScore:MutableLiveData<Int> = MutableLiveData(0)
     private val questionChangeHandler = Handler()
+    private var delayNextQuestion = false
 
     init {
         quizRepository = QuizRepository(application.applicationContext)
@@ -70,6 +70,7 @@ class QuizViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun forceLoadNextQuestion(){
-        // TODO: Force load next question after 2 seconds
+        questionChangeHandler.removeCallbacks(questionChangeRunnable)
+        questionChangeHandler.postDelayed(questionChangeRunnable, 2000)
     }
 }

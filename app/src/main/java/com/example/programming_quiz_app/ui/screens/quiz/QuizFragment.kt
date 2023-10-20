@@ -1,23 +1,20 @@
 package com.example.programming_quiz_app.ui.screens.quiz
 
-import android.annotation.SuppressLint
+
 import android.os.Bundle
-import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.example.programming_quiz_app.R
 import com.example.programming_quiz_app.data.model.Quiz
 import com.example.programming_quiz_app.databinding.FragmentQuizBinding
 import com.example.programming_quiz_app.ui.screens.quiz.question.QuestionFragment
 import com.example.programming_quiz_app.utils.Constants
 import com.example.programming_quiz_app.utils.SharedPreference
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.delay
 import kotlin.math.max
 
 class QuizFragment : Fragment() {
@@ -85,6 +82,13 @@ class QuizFragment : Fragment() {
                    max(viewModel.currentScore.value!!.toInt(),
                        SharedPreference.getString(Constants.HIGH_SCORE_KEY,Constants.DEFAULT_HIGH_SCORE).toInt()).toString()
                )
+
+               context?.let {
+                   Glide.with(requireContext())
+                       .load(R.drawable.checkmark)
+                       .override(100,100)
+                       .into(binding.checkMark)
+               }
            }
        }
     }
@@ -96,5 +100,6 @@ class QuizFragment : Fragment() {
             )
         }
         viewModel.forceLoadNextQuestion()
+
     }
 }
