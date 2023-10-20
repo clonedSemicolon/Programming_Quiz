@@ -2,6 +2,7 @@ package com.example.programming_quiz_app.ui.screens
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import com.example.programming_quiz_app.R
@@ -19,7 +20,9 @@ class MainActivity : AppCompatActivity() {
 
         val highScore = SharedPreference.getString(
             Constants.HIGH_SCORE_KEY,Constants.DEFAULT_HIGH_SCORE
-        )
+        ).toString()
+
+        Log.d("HIGHSC", highScore);
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()

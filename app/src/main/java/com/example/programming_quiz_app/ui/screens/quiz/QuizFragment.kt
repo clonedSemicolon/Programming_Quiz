@@ -14,8 +14,11 @@ import com.example.programming_quiz_app.R
 import com.example.programming_quiz_app.data.model.Quiz
 import com.example.programming_quiz_app.databinding.FragmentQuizBinding
 import com.example.programming_quiz_app.ui.screens.quiz.question.QuestionFragment
+import com.example.programming_quiz_app.utils.Constants
+import com.example.programming_quiz_app.utils.SharedPreference
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
+import kotlin.math.max
 
 class QuizFragment : Fragment() {
 
@@ -76,6 +79,12 @@ class QuizFragment : Fragment() {
                binding.questionView.visibility = View.INVISIBLE
                binding.scoreDetail.visibility = View.INVISIBLE
                binding.finishTxt.text = getString(R.string.finished_successfully)
+
+               SharedPreference.putString(
+                   Constants.HIGH_SCORE_KEY,
+                   max(viewModel.currentScore.value!!.toInt(),
+                       SharedPreference.getString(Constants.HIGH_SCORE_KEY,Constants.DEFAULT_HIGH_SCORE).toInt()).toString()
+               )
            }
        }
     }
