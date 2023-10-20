@@ -22,7 +22,6 @@ class QuizViewModel(application: Application) : AndroidViewModel(application) {
     val currentQuestionIndex:MutableLiveData<Int> = MutableLiveData()
     val currentScore:MutableLiveData<Int> = MutableLiveData(0)
     private val questionChangeHandler = Handler()
-    private var delayNextQuestion = false
 
     init {
         quizRepository = QuizRepository(application.applicationContext)
@@ -49,16 +48,22 @@ class QuizViewModel(application: Application) : AndroidViewModel(application) {
     fun startAutoQuestionChange(
         duration:Long = 10000
     ) {
+        /*
+        * Automatically change the Question After 10 Sec.*/
         questionChangeHandler.postDelayed(questionChangeRunnable, duration) // 10 seconds
     }
 
     private val questionChangeRunnable = Runnable {
+        /*
+        * Get the Next Available Question. */
         currentQuestionIndex.value = currentQuestionIndex.value?.plus(1)
         if(currentQuestionIndex.value!! < (questionList.value?.size!!)){
             currentQuestionIndex.postValue(currentQuestionIndex.value)
             startAutoQuestionChange()
         }
         else{
+            /*
+            * If no question remains, then the End page will show up*/
             isFinished.postValue(true)
         }
     }
@@ -70,6 +75,9 @@ class QuizViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun forceLoadNextQuestion(){
+        /* Removed Runnable Callback because of interfering time duration
+        * on ForceChange and Regular Change */
+
         questionChangeHandler.removeCallbacks(questionChangeRunnable)
         questionChangeHandler.postDelayed(questionChangeRunnable, 2000)
     }

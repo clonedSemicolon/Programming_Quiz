@@ -70,11 +70,19 @@ class QuestionFragment : Fragment() {
             answersInAlphabeticalOrder.indexOf(quiz.correctAnswer)
         ) {
             val rightAnsIndex = answersInAlphabeticalOrder.indexOf(quiz.correctAnswer)
+
+            // If the given answer is wrong then the
+            // correct answer should be green bordered.
+
             val rightAnswerView = binding.answersRecyclerView.findViewHolderForAdapterPosition(rightAnsIndex)
             val border = GradientDrawable()
             border.setColor(Color.WHITE);
             border.setStroke(10, Color.GREEN)
             rightAnswerView?.itemView?.background = border
+
+            // Checking if the answer is correct.
+            // Execute the action using lamda function passed by parameters.
+
             onClickAction(
                  it.toInt() == rightAnsIndex
             )
