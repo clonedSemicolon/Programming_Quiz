@@ -41,12 +41,19 @@
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="150dp"
-            android:visibility="gone"
             android:adjustViewBounds="true"
+            android:visibility="gone"
             android:src="@drawable/error_icon"
             android:layout_margin="12dp"
             android:scaleType="fitXY"
             />
+
+        <ProgressBar
+            android:id="@+id/glideProgress"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
 
         <TextView
             android:id="@+id/questionText"
