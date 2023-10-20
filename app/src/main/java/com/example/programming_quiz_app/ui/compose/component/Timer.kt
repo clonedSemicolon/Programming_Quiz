@@ -34,19 +34,6 @@ fun Timer(
         onFinish()
     }
 
-    Column(
-        modifier = Modifier.padding(16.dp),
-        verticalArrangement = Arrangement.Center
-    ) {
-        BasicTextField(
-            value = currentTime.toString(),
-            onValueChange = {
-                currentTime = it.toIntOrNull() ?: 0
-            },
-            singleLine = true,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number))
-    }
-
     Text(
         text = "Time Remains: $currentTime seconds",
         style = MaterialTheme.typography.body2,

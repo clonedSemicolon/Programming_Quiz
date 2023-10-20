@@ -70,8 +70,8 @@ class QuestionFragment : Fragment() {
             context?.let {
                 Glide.with(it).load(url)
                     .error(R.drawable.error_icon)
+                    .placeholder(R.drawable.loading)
                     .into(binding.questionImage)
-
             }
         }
 
